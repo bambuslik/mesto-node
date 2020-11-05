@@ -1,14 +1,22 @@
-const router = require('express').Router();
+const usersRoutes = require('express').Router();
 const fsPromises = require('fs').promises;
 const path = require('path');
 
-fsPromises.readFile(path.join(__dirname, `${path.sep}..${path.sep}data${path.sep}users.json`), { encoding: 'utf8' })
-  .then((users) => {
-    router.get('/users', (req, res) => {
+usersRoutes.get('/', (req, res) => {
+  fsPromises.readFile(path.join(__dirname, '../data/users.json'), { encoding: 'utf8' })
+    .then((users) => {
       res.send(users);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.send({ message: 'Error reading data' });
     });
+});
 
-    router.get('/users/:id', (req, res) => {
+usersRoutes.get('/:id', (req, res) => {
+  fsPromises.readFile(path.join(__dirname, '../data/users.json'), { encoding: 'utf8' })
+    .then((users) => {
       const userData = JSON.parse(users).find((user) => user._id === req.params.id);
       if (userData) {
         res.send(userData);
@@ -16,14 +24,12 @@ fsPromises.readFile(path.join(__dirname, `${path.sep}..${path.sep}data${path.sep
         res.status(404);
         res.send({ message: 'Нет пользователя с таким id' });
       }
-    });
-  })
-  .catch((err) => {
-    router.get('*', (req, res) => {
+    })
+    .catch((err) => {
       console.log(err);
-      res.status(400);
+      res.status(500);
       res.send({ message: 'Error reading data' });
     });
-  });
+});
 
-module.exports = router;
+module.exports = usersRoutes;

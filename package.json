@@ -1,8 +1,8 @@
 {
   "name": "mesto-node",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Yandex Praktikum`s project work #12: NodeJS",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
